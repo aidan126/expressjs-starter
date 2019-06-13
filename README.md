@@ -2,5 +2,5 @@
 
 
 
-###  Router() example
-###  NOSQL database example
+###  Router() example of user login/register
+###  NOSQL database example mongoDB
