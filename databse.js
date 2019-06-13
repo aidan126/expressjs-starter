@@ -64,8 +64,8 @@ const findDocuments = async function(collectionName, query = {}, callback) {
         .find(query)
         .toArray(function(err, docs) {
           assert.equal(err, null);
-          dblog('Found the following records');
-          dblog(docs);
+          dblog('Found ' + docs.length + ' records');
+
           callback(docs);
         });
     })

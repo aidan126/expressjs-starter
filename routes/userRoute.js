@@ -10,9 +10,14 @@ router.use(function timeLog(req, res, next) {
   next();
 });
 
-router.get('/', function(req, res) {
+router.use(function(req, res, next) {
   session = req.session;
-  if (session.ssid) res.redirect('/dashboard');
+  //console.log(`session.id` , session.id);
+  next();
+});
+
+router.get('/', function(req, res) {
+  if (session['ssid']) res.redirect('/dashboard');
   else res.redirect('/login');
 });
 
@@ -22,15 +27,17 @@ router
     res.render('login.html');
   })
   .post(function(req, res) {
-    let queryStr = { id: req.body.id, password: req.body.password };
+    let loginid = req.body.id;
+    let queryStr = { id: loginid, password: req.body.password };
     db.findDocuments('users', queryStr, function(docs) {
       if (docs.length === 0) {
         console.log('id no exist');
-        res.end('invalid password or id no exist');
+        res.send('invalid password or id no exist');
       } else {
         console.log('login successful');
         //set the session var `ssid`
-        session.ssid = req.body.id;
+
+        session['ssid'] = loginid;
         res.redirect('/dashboard');
       }
     });
